@@ -1,31 +1,37 @@
 var React=require('react');
-var LabelComponent=require('./LabelComponent');
-
+//var LabelComponent=require('./LabelComponent');
+var TableCreation=require('./TableCreation');
 var RightPanel=React.createClass({ //creating class
   render:function() //render function
   {
-    var data=this.props.rc.map(function(e) //iterating through map
+    var InboxMail=this.props.rc.map(function(e){
 
-      {
-        return(
-          <div className="list-group-item">
-          <table>
-          <tr>
-          <th>{e.name}:</th>
-          <td>{e.value}</td>
-          </tr>
-          </table>
-          </div>
-        );//end of return in function
-        error: if(err) {
-          console.log(err.toString());
-        }
-      });
-      return(
-        <div>
-          {data}
-        </div>
-      );//end of return in render function
+               var from;
+               var subject;
+               var date;
+               for(var i=0;i<e.payload.headers.length;i++){
+                    if(e.payload.headers[i].name=="From"){
+                      from=e.payload.headers[i].value;
+                    }
+                    if(e.payload.headers[i].name=="Subject"){
+                      subject=e.payload.headers[i].value;
+                    }
+                    if(e.payload.headers[i].name=="Date"){
+                      date=e.payload.headers[i].value;
+                    }
+               }
+
+         return(
+            <TableCreation mailFrom={from} mailSubject={subject}  mailDate={date} />);
+
+
+    });
+
+    return(
+      <div>
+      {InboxMail}
+      </div>
+    );
   }
 });
 module.exports=RightPanel;//exporting the RightPanel

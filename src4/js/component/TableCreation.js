@@ -1,15 +1,29 @@
 var React=require('react');
+
 var TableCreation=React.createClass({
+
   render:function(){
 
-  return(
-    <div className="list-group-item">
-      {this.props.fr}
-      {this.props.sub}
-      {this.props.dt}
-    </div>
-  );
-}
-});
+    return(
+<div className="list-group-item">
 
-module.exprots=TableCreation;
+<div className="container-fluid">
+	<div className="row">
+		<div className="col-lg-4">
+    {this.props.mailFrom}
+		</div>
+		<div className="col-lg-4">
+    {this.props.mailSubject}
+		</div>
+		<div className="col-lg-4">
+    {this.props.mailDate}
+		</div>
+	</div>
+</div>
+</div>
+
+    );
+
+  }
+});
+module.exports=TableCreation;

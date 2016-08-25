@@ -57,7 +57,8 @@ var GmailBox = React.createClass({
        }
    }, 500);
    this.allLabels(); //calling ajax for labels
-   this.getInbox(); //calling ajax for RightPanel
+   this.getmsgIDS(); //calling ajax for gmailIDS
+   //this.getInbox(); //calling ajax for RightPanel
  },
 
 //function for labels
@@ -88,12 +89,54 @@ var GmailBox = React.createClass({
  },
 //end of labels
 
-//Inbox
-getInbox: function()
-{
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//getting message ids
+
+getmsgIDS: function()
+  {
     var accessToken = localStorage.getItem('gToken');
     $.ajax({
-     url: 'https://www.googleapis.com/gmail/v1/users/podalavybhav%40gmail.com/messages/156b6b1dc83bb5fc?key={AIzaSyDQ25IjOBgw2UYXQpSFTmLDtsJrwx_lukk}',//key and json object url
+      url: 'https://www.googleapis.com/gmail/v1/users/podalavybhav%40gmail.com/messages?labelIds=INBOX&maxResults=10&key={AIzaSyDQ25IjOBgw2UYXQpSFTmLDtsJrwx_lukk}',
+      dataType: 'json',
+      type: 'GET',
+      async:false,
+      beforeSend: function (request)
+      {
+        request.setRequestHeader("Authorization", "Bearer "+accessToken);
+      },
+      success: function(data)
+      {
+
+
+        for (var i = 0; i < data.messages.length; i++) {
+          console.log(data.messages[i].id);
+
+          this.getInbox(data.messages[i].id);
+
+          console.log("ha");
+        }
+
+        loadedData=true;
+        //console.log(data);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(err.toString());
+      }.bind(this)
+    });
+
+  },
+//end of getting id's
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Inbox
+getInbox: function(id)
+{
+  console.log(id);
+    var accessToken = localStorage.getItem('gToken');
+    $.ajax({
+     url: 'https://www.googleapis.com/gmail/v1/users/podalavybhav%40gmail.com/messages/'+id+'?key={AIzaSyDQ25IjOBgw2UYXQpSFTmLDtsJrwx_lukk}',//key and json object url
      dataType: 'json',
      type: 'GET',
      beforeSend: function (request)
@@ -103,15 +146,15 @@ getInbox: function()
      success: function(data)
      {
        console.log("inside getInbox function");
-       console.log(data);
+       //console.log(data);
 
-       var inboxArray=[];
-       for(var i=0;i<data.payload.headers.length;i++){
-         inboxArray.push({"name":data.payload.headers[i].name,"value":data.payload.headers[i].value});
-       }
-       this.state.inboxData.push(inboxArray);
-       console.log(inboxArray);
-       this.setState({inboxData:inboxArray});
+      //  var inboxArray=[];
+      //  for(var i=0;i<data.payload.headers.length;i++){
+      //    inboxArray.push({"name":data.payload.headers[i].name,"value":data.payload.headers[i].value});
+      //  }
+       this.state.inboxData.push(data);
+       //console.log(inboxData);
+       //this.setState({inboxData:inboxArray});
        loadedData=true;
      }.bind(this),
      error: function(xhr, status, err) {
