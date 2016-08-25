@@ -1,10 +1,10 @@
+
 var React = require('react');
 
 //components that are required
-
 var LeftPanel=require('./LeftPanel');
 var RightPanel=require('./RightPanel');
-
+var ModalWindow=require('./ModalWindow');
 var loadedData = false;
 
 
@@ -61,7 +61,7 @@ var GmailBox = React.createClass({
    this.getmsgIDS(); //calling ajax for gmailIDS
    //this.getInbox(); //calling ajax for RightPanel
  },
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //function for labels
  allLabels: function()
  {
@@ -79,7 +79,7 @@ var GmailBox = React.createClass({
         this.setState({allLabelsData:data.labels}); //assigning data.labels value to allLabelsData
         loadedData=true;
         //console.log(data); //prints the object on success
-        console.log("page loaded successfully");//call once when the page loaded successfully after Authorization
+        //console.log("page loaded successfully");//call once when the page loaded successfully after Authorization
         console.log("inside allLabels function");
       }.bind(this),
       error: function(xhr, status, err) { //if error occurs then this statement will executes
@@ -111,8 +111,7 @@ getmsgIDS: function()
 
 
         for (var i = 0; i < data.messages.length; i++) {
-          console.log(data.messages[i].id);
-
+          //console.log(data.messages[i].id);
           this.getInbox(data.messages[i].id);
         }
 
@@ -132,7 +131,7 @@ getmsgIDS: function()
 //Inbox
 getInbox: function(id)
 {
-  console.log(id);
+  //console.log(id);
     var accessToken = localStorage.getItem('gToken');
     $.ajax({
      url: 'https://www.googleapis.com/gmail/v1/users/podalavybhav%40gmail.com/messages/'+id+'?key={AIzaSyDQ25IjOBgw2UYXQpSFTmLDtsJrwx_lukk}',//key and json object url
@@ -145,12 +144,7 @@ getInbox: function(id)
      success: function(data)
      {
        console.log("inside getInbox function");
-       //console.log(data);
 
-      //  var inboxArray=[];
-      //  for(var i=0;i<data.payload.headers.length;i++){
-      //    inboxArray.push({"name":data.payload.headers[i].name,"value":data.payload.headers[i].value});
-      //  }
        this.state.inboxData.push(data);
        //console.log(inboxData);
        //this.setState({inboxData:inboxArray});
@@ -170,7 +164,7 @@ getInbox: function(id)
 
    if(loadedData){
      leftPanel =  <LeftPanel allLabelsData={this.state.allLabelsData}/>
-     rightPanel=  <RightPanel rc={this.state.inboxData} />
+     rightPanel=  <RightPanel rp={this.state.inboxData} />
      //console.log(this.state.inboxData);
    }
 
@@ -183,8 +177,10 @@ getInbox: function(id)
                  <div className="col-lg-1">
                   <button id="r-button" onClick={this.gmailLogin} className="btn btn-primary pull-left">SignIn</button>
                   </div>
+
                   <div className="col-lg-8 pull-right">
-                    <h2>ReactMails</h2>
+                    <h2 id="mailHeading">ReactMails</h2>
+                    <hr/>
                   </div>
               </div>
                <div className="row">

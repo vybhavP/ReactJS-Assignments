@@ -6,7 +6,7 @@ var TableCreation=require('./TableCreation');
 var RightPanel=React.createClass({ //creating class
   render:function() //render function
   {
-    var InboxMail=this.props.rc.map(function(e){
+    var InboxMail=this.props.rp.map(function(e){
 
                var from;
                var subject;

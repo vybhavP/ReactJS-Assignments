@@ -2,7 +2,7 @@ var React=require('react');
 
 //components required
 var LabelComponent=require('./LabelComponent');
-
+var ModalWindow =require('./ModalWindow');
 var LeftPanel=React.createClass({ //creating class
   render:function() //render function
   {
@@ -22,6 +22,7 @@ var LeftPanel=React.createClass({ //creating class
       return(
 
         <div>
+        <ModalWindow />
           {data}
         </div>
 
