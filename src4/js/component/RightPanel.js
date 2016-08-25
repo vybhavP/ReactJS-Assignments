@@ -1,6 +1,8 @@
 var React=require('react');
 //var LabelComponent=require('./LabelComponent');
+var TableManibulation=require('./TableManibulation');
 var TableCreation=require('./TableCreation');
+
 var RightPanel=React.createClass({ //creating class
   render:function() //render function
   {
@@ -22,13 +24,15 @@ var RightPanel=React.createClass({ //creating class
                }
 
          return(
-            <TableCreation mailFrom={from} mailSubject={subject}  mailDate={date} />);
-
-
+           <div>
+            <TableCreation mailFrom={from} mailSubject={subject}  mailDate={date} />
+            </div>
+);
     });
 
     return(
       <div>
+      <TableManibulation />
       {InboxMail}
       </div>
     );

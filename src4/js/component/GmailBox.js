@@ -1,6 +1,7 @@
 var React = require('react');
 
 //components that are required
+
 var LeftPanel=require('./LeftPanel');
 var RightPanel=require('./RightPanel');
 
@@ -97,7 +98,7 @@ getmsgIDS: function()
   {
     var accessToken = localStorage.getItem('gToken');
     $.ajax({
-      url: 'https://www.googleapis.com/gmail/v1/users/podalavybhav%40gmail.com/messages?labelIds=INBOX&maxResults=10&key={AIzaSyDQ25IjOBgw2UYXQpSFTmLDtsJrwx_lukk}',
+      url: 'https://www.googleapis.com/gmail/v1/users/podalavybhav%40gmail.com/messages?labelIds=INBOX&maxResults=20&key={AIzaSyDQ25IjOBgw2UYXQpSFTmLDtsJrwx_lukk}',
       dataType: 'json',
       type: 'GET',
       async:false,
@@ -113,8 +114,6 @@ getmsgIDS: function()
           console.log(data.messages[i].id);
 
           this.getInbox(data.messages[i].id);
-
-          console.log("ha");
         }
 
         loadedData=true;
